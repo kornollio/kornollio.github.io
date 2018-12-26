@@ -1,0 +1,72 @@
+body{background: #FFFFFF}
+.zagolovok{
+	position: absolute;
+	width: 164.7px;
+	height: 43.2px;
+	left: 688.04px;
+	top: 64px;
+
+	background: linear-gradient(270deg, #9829A1 13.2%, #7200A7 89.4%);
+	 -webkit-background-clip: text;
+	 -webkit-text-fill-color: transparent;
+	 color: #0B2349;
+	 display: table;
+
+	font-family: Circe;
+	font-style: normal;
+	font-weight: normal;
+	line-height: normal;
+	font-size: 40px;}
+
+.anons{
+	position: absolute;
+	width: 500px;
+	height: 232.61px;
+	left: 687px;
+	top: 169px;
+
+	font-family: Circe;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 24px;
+	font-size: 18px;
+
+	color: #202020;
+}
+
+.aboutRosogroup{
+	position: absolute;
+	width: 510px;
+	height: 27px;
+	left: 688px;
+	top: 509px;
+
+	font-family: Circe;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 24px;
+	font-size: 18px;
+
+	color: #202020;
+}
+
+.portrait{
+	background: url(images/AndreyOsyagin.png);
+	position: absolute;
+	width: 400px;
+	height: 535px;
+	left: 168px;
+	top: 64px;
+}
+
+a:link {
+  color: #7201A7;
+  text-decoration: none; 
+}
+a:hover {
+  color: #A70165;
+  text-decoration: underline;  
+}
+a:active {
+  color: #497DDD; 
+}
