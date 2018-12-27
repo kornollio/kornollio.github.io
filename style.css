@@ -1,6 +1,7 @@
 body{
 	background: #FFFFFF
-	align: center
+	margin:0px auto;
+	width: 1350px;
 }
 @font-face {
 	font-family: Circe;
@@ -12,10 +13,6 @@ body{
 	font-weight: normal;
 	font-style: normal;
 }
-.wrapper{
-	margin:0px auto;
-	width: 1350px;
-}	
 .zagolovok{
 	position: absolute;
 	width: 164.7px;
