@@ -12,6 +12,10 @@ body{
 	font-weight: normal;
 	font-style: normal;
 }
+.wrapper{
+	margin:0 auto
+	width: 0 auto
+}	
 .zagolovok{
 	position: absolute;
 	width: 164.7px;
