@@ -1,4 +1,7 @@
-body{background: #FFFFFF}
+body{
+	background: #FFFFFF
+	align: center
+}
 @font-face {
 	font-family: Circe;
 	src: url(fonts/Circe-Regular.eot);
