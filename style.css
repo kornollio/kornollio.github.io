@@ -22,7 +22,7 @@ body{background: #FFFFFF}
 	 color: #0B2349;
 	 display: table;
 
-	font-family: Circe-Regular;
+	font-family: @font-face;
 	font-style: normal;
 	font-weight: normal;
 	line-height: normal;
@@ -35,7 +35,7 @@ body{background: #FFFFFF}
 	left: 687px;
 	top: 169px;
 
-	font-family: Circe-Regular;
+	font-family: @font-face;
 	font-style: normal;
 	font-weight: normal;
 	line-height: 24px;
@@ -51,7 +51,7 @@ body{background: #FFFFFF}
 	left: 688px;
 	top: 509px;
 
-	font-family: Circe-Regular;
+	font-family: @font-face;
 	font-style: normal;
 	font-weight: normal;
 	line-height: 24px;
