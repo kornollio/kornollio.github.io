@@ -1,4 +1,8 @@
 body{background: #FFFFFF}
+@font-face {
+    font-family: Circe; /* Гарнитура шрифта */
+    src: url(fonts/Circe-Regular.ttf); /* Путь к файлу со шрифтом */
+   }
 .zagolovok{
 	position: absolute;
 	width: 164.7px;
@@ -12,7 +16,7 @@ body{background: #FFFFFF}
 	 color: #0B2349;
 	 display: table;
 
-	font-family: Circe;
+	font-family: Circe-Regular;
 	font-style: normal;
 	font-weight: normal;
 	line-height: normal;
@@ -25,7 +29,7 @@ body{background: #FFFFFF}
 	left: 687px;
 	top: 169px;
 
-	font-family: Circe;
+	font-family: Circe-Regular;
 	font-style: normal;
 	font-weight: normal;
 	line-height: 24px;
@@ -41,7 +45,7 @@ body{background: #FFFFFF}
 	left: 688px;
 	top: 509px;
 
-	font-family: Circe;
+	font-family: Circe-Regular;
 	font-style: normal;
 	font-weight: normal;
 	line-height: 24px;
