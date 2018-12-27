@@ -1,8 +1,14 @@
 body{background: #FFFFFF}
 @font-face {
-    font-family: Circe; /* Гарнитура шрифта */
-    src: url(fonts/Circe-Regular.ttf); /* Путь к файлу со шрифтом */
-   }
+	font-family: 'Circe';
+	src: url(fonts/Circe-Regular.eot);
+	src: local('Circe'), local('Circe-Regular'),
+		url(fonts/Circe-Regular.eot?#iefix) format('embedded-opentype'),
+		url(fonts/Circe-Regular.woff) format('woff'),
+		url(fonts/Circe-Regular.ttf) format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
 .zagolovok{
 	position: absolute;
 	width: 164.7px;
