@@ -12,8 +12,9 @@ body{
 		url(fonts/Circe-Regular.ttf) format(truetype);
 	font-weight: normal;
 	font-style: normal;
-}
-.zagolovok{
+
+/*Привет!*/
+.privet{
 	position: absolute;
 	width: 164.7px;
 	height: 43.2px;
@@ -24,15 +25,15 @@ body{
 	 -webkit-background-clip: text;
 	 -webkit-text-fill-color: transparent;
 	 color: #0B2349;
-	 display: table;
-
+	
 	font-family: Circe;
 	font-style: normal;
 	font-weight: normal;
 	line-height: normal;
 	font-size: 40px;}
 
-.anons{
+/*Description*/
+.text{
 	position: absolute;
 	width: 500px;
 	height: 232.61px;
