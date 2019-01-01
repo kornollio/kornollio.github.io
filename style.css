@@ -1,9 +1,11 @@
 body{
 	background: #FFFFFF
-	margin:0px auto;
-	width: 1360px;
 }
 
+#wrapper{
+	margin: 0px auto; 
+	width: 80$:;
+}
 /* Font */
 @font-face {
     font-family: Roboto;
