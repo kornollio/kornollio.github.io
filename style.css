@@ -29,7 +29,7 @@ body{
 }
 @font-face {
     font-family: Roboto;
-    src: url(fonts/Roboto-Italic.eotfonts/);
+    src: url(fonts/Roboto-Italic.eot);
     src: local(Roboto Italic), local(Roboto-Italic),
         url(fonts/Roboto-Italic.eot) format(embedded-opentype),
         url(fonts/Roboto-Italic.woff) format(woff),
