@@ -1,88 +1,92 @@
 body{
 	background: #FFFFFF
 	margin:0px auto;
-	width: 1000px;
+	width: auto;
+}
+
+/* Font */
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Regular.eot');
+    src: local('Roboto'), local('Roboto-Regular'),
+        url('Roboto-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Roboto-Regular.woff') format('woff'),
+        url('Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-	font-family: Circe;
-	src: url(fonts/Circe-Regular.eot);
-	src: local(Circe), local(Circe-Regular),
-		url(fonts/Circe-Regular.eot?#iefix) format(embedded-opentype),
-		url(fonts/Circe-Regular.woff) format(woff),
-		url(fonts/Circe-Regular.ttf) format(truetype);
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'Roboto';
+    src: url('Roboto-Bold.eot');
+    src: local('Roboto Bold'), local('Roboto-Bold'),
+        url('Roboto-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Roboto-Bold.woff') format('woff'),
+        url('Roboto-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('Roboto-Italic.eot');
+    src: local('Roboto Italic'), local('Roboto-Italic'),
+        url('Roboto-Italic.eot?#iefix') format('embedded-opentype'),
+        url('Roboto-Italic.woff') format('woff'),
+        url('Roboto-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
 }
 
-/*Привет!*/
-.privet{
+/* Styles */
+.buble{
 	position: absolute;
-	width: 164.7px;
-	height: 100%;
-	left: 688.04px;
-	top: 64px;
+	background: #2B5278;
+	border-radius: 5px;
+}
+.name{
+	position: absolute;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	line-height: normal;
+	font-size: 13px;
 
-	background: linear-gradient(270deg, #9829A1 13.2%, #7200A7 89.4%);
-	 -webkit-background-clip: text;
-	 -webkit-text-fill-color: transparent;
-	 color: #0B2349;
-	
-	font-family: Circe;
+	color: #85DE85;
+}
+.text{
+	position: absolute;
+	font-family: Roboto;
 	font-style: normal;
 	font-weight: normal;
 	line-height: normal;
-	font-size: 40px;}
-
-/*Description*/
-.text{
+	font-size: 13px;
+	letter-spacing: 0.01em;
+	color: #E3EBF1;
+}
+.time{
 	position: absolute;
-	width: 500px;
-	height: 232.61px;
-	left: 687px;
-	top: 169px;
-
-	font-family: Circe;
-	font-style: normal;
+	font-family: Roboto;
+	font-style: italic;
 	font-weight: normal;
-	line-height: 24px;
-	font-size: 18px;
+	line-height: normal;
+	font-size: 13px;
 
-	color: #202020;
+	color: #6D7F8F;
 }
 
-.aboutRosogroup{
-	position: absolute;
-	width: 510px;
-	height: 27px;
-	left: 688px;
-	top: 509px;
-
-	font-family: Circe;
-	font-style: normal;
-	font-weight: normal;
-	line-height: 24px;
-	font-size: 18px;
-
-	color: #202020;
-}
-
-.portrait{
-	background: url(images/AndreyOsyagin.jpg);
-	position: absolute;
-	width: 400px;
-	height: 535px;
-	left: 168px;
-	top: 64px;
-}
-
+/* links */
 a:link {
-  color: #7201A7;
-  text-decoration: none; 
+  color: #80C6FA;
+    text-decoration: none; 
 }
 a:hover {
-  color: #A70165;
   text-decoration: underline;  
 }
 a:active {
-  color: #497DDD; 
+  color: #80C6FA; 
+  text-decoration: none; 
 }
+a:visited{
+  color: #80C6FA; 
+  text-decoration: none; 
+}
+
