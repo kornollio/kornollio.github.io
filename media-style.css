@@ -1,45 +1,14 @@
-body{
-	background: #FFFFFF
-}
+
+/*----------------------
+		MEDIA 320
+----------------------*/
+
+@media only screen and (max-width: 480px) {
 
 .wrapper{
 	margin: 0px auto; 
-	width: 1000px;
+	width: 320px;
 }
-
-/* Font */
-@font-face {
-    font-family: Roboto;
-    src: url(fonts/Roboto-Regular.eot);
-    src: local(Roboto), local(Roboto-Regular),
-        url(fonts/Roboto-Regular.eot?#iefix) format(embedded-opentype),
-        url(fonts/Roboto-Regular.woff) format(woff),
-        url(fonts/Roboto-Regular.ttf) format(truetype);
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(fonts/Roboto-Bold.eot);
-    src: local(Roboto Bold), local(Roboto-Bold),
-        url(fonts/Roboto-Bold.eot?#iefix) format(embedded-opentype),
-        url(fonts/Roboto-Bold.woff) format(woff),
-        url(fonts/Roboto-Bold.ttf) format(truetype);
-    font-weight: bold;
-    font-style: normal;
-}
-@font-face {
-    font-family: Roboto;
-    src: url(fonts/Roboto-Italic.eot);
-    src: local(Roboto Italic), local(Roboto-Italic),
-        url(fonts/Roboto-Italic.eot?#iefix) format(embedded-opentype),
-        url(fonts/Roboto-Italic.woff) format(woff),
-        url(fonts/Roboto-Italic.ttf) format(truetype);
-    font-weight: normal;
-    font-style: italic;
-}
-
-/* Styles */
 
 
 /*----------------------
@@ -51,8 +20,8 @@ body{
 	border-radius: 5px;
 	width: 165px; 
 	height: 51px; 
-	left: 584px; 
-	top: 56px;
+	left: 58px; 
+	top: 39px;
 }
 
 .name{
@@ -64,8 +33,8 @@ body{
 	font-size: 13px;
 	width: 93px; 
 	height: 16px; 
-	left: 597px; 
-	top: 65px;
+	left: 71px; 
+	top: 48px;
 	color: #85DE85;
 }
 .firstText{
@@ -75,12 +44,11 @@ body{
 	font-weight: normal;
 	line-height: normal;
 	font-size: 13px;
-	letter-spacing: 0.01em;
 	color: #E3EBF1;
 	width: 48px; 
 	height: 16px; 
-	left: 597px; 
-	top: 83px;
+	left: 71px; 
+	top: 66px;
 }
 
 .firstTime{
@@ -92,24 +60,22 @@ body{
 	font-size: 13px;
 	width: 32px; 
 	height: 16px; 
-	left: 706px; 
-	top: 88px;
+	left: 180px; 
+	top: 71px;
 	color: #6D7F8F;
 }
-
 
 /*----------------------
 		2 BUBBLE
 ----------------------*/
-
 .secondBubble{
 	position: absolute;
 	background: #2B5278;
 	border-radius: 5px;
-	width: 434px; 
-	height: 49px; 
-	left: 584px; 
-	top: 111px;
+	width: 246px; 
+	height: 80px; 
+	left: 58px; 
+	top: 94px;
 }
 
 .secondText{
@@ -121,10 +87,10 @@ body{
 	font-size: 13px;
 	letter-spacing: 0.01em;
 	color: #E3EBF1;
-	width: 390px; 
-	height: 33px; 
-	left: 597.75px; 
-	top: 119px;
+	width: 213px; 
+	height: 61px; 
+	left: 72px; 
+	top: 102px;
 }
 
 .secondTime{
@@ -134,13 +100,12 @@ body{
 	font-weight: normal;
 	line-height: normal;
 	font-size: 13px;
-	width: 33.85px; 
+	width: 32px; 
 	height: 16px; 
-	left: 975.52px; 
-	top: 141px;
+	left: 261px; 
+	top: 155px;
 	color: #6D7F8F;
 }
-
 
 /*----------------------
 		3 BUBBLE
@@ -152,8 +117,8 @@ body{
 	border-radius: 5px;
 	width: 135px; 
 	height: 33px; 
-	left: 584px; 
-	top: 164px;
+	left: 58px; 
+	top: 178px;
 }
 
 .thirdText{
@@ -167,8 +132,8 @@ body{
 	color: #E3EBF1;
 	width: 67px; 
 	height: 16px; 
-	left: 597px; 
-	top: 172.64px;
+	left: 71px; 
+	top: 186.64px;
 }
 
 .thirdTime{
@@ -180,10 +145,11 @@ body{
 	font-size: 13px;
 	width: 32px; 
 	height: 16px; 
-	left: 676px; 
-	top: 177.83px;
+	left: 150px; 
+	top: 191.83px;
 	color: #6D7F8F;
 }
+
 
 /*----------------------
 		4 BUBBLE
@@ -195,8 +161,8 @@ body{
 	border-radius: 5px;
 	width: 121px; 
 	height: 33px; 
-	left: 584px; 
-	top: 201px;
+	left: 58px; 
+	top: 215px;
 }
 
 .fourText{
@@ -206,12 +172,11 @@ body{
 	font-weight: normal;
 	line-height: normal;
 	font-size: 13px;
-	letter-spacing: 0.01em;
 	color: #E3EBF1;
 	width: 52px; 
 	height: 16px; 
-	left: 596.65px; 
-	top: 209.64px;
+	left: 70.65px; 
+	top: 223.64px;
 }
 
 .fourTime{
@@ -223,8 +188,8 @@ body{
 	font-size: 13px;
 	width: 32px; 
 	height: 16px; 
-	left: 661.91px; 
-	top: 214.83px;
+	left: 135.91px; 
+	top: 228.83px;
 	color: #6D7F8F;
 }
 
@@ -238,8 +203,8 @@ body{
 	border-radius: 5px;
 	width: 100px; 
 	height: 33px; 
-	left: 584px; 
-	top: 238px;
+	left: 58px; 
+	top: 252px;
 }
 
 .fiveText{
@@ -249,12 +214,11 @@ body{
 	font-weight: normal;
 	line-height: normal;
 	font-size: 13px;
-	letter-spacing: 0.01em;
 	color: #E3EBF1;
 	width: 32px;
 	height: 16px;
-	left: 596.65px;
-	top: 246.64px;
+	left: 70.65px;
+	top: 260.64px;
 }
 
 .fiveTime{
@@ -266,8 +230,8 @@ body{
 	font-size: 13px;
 	width: 32px; 
 	height: 16px; 
-	left: 641px; 
-	top: 252px;
+	left: 115px; 
+	top: 266px;
 	color: #6D7F8F;
 }
 
@@ -280,8 +244,8 @@ body{
 	position: absolute; 
 	width: 254px; 
 	height: 33px; 
-	left: 577px; 
-	top: 275px;
+	left: 51px; 
+	top: 289px;
 }
 
 .sixText{
@@ -291,12 +255,11 @@ body{
 	font-weight: normal;
 	line-height: normal;
 	font-size: 13px;
-	letter-spacing: 0.01em;
 	color: #E3EBF1;
 	width: 178px;
 	height: 16px;
-	left: 597px;
-	top: 283.64px;
+	left: 71px;
+	top: 297.64px;
 }
 
 .sixTime{
@@ -308,8 +271,8 @@ body{
 	font-size: 13px;
 	width: 32px;
 	height: 16px;
-	left: 788px;
-	top: 288.83px;
+	left: 262px;
+	top: 302.83px;
 	color: #6D7F8F;
 }
 
@@ -318,13 +281,13 @@ body{
 		Portrait
 ----------------------*/
 .portrait {
-	background-image: url(images/andreyosyagin.png);
-	background-size: cover;
+	background-image:  url(images/andreyosyagin.png);
 	position: absolute; 
-	width: 88px; 
-	height: 88px; 
-	left: 480px; 
-	top: 220px;
+	background-size: cover;
+	width: 38px; 
+	height: 38px; 
+	left: 15px; 
+	top: 285px;
 }
 
 
@@ -339,10 +302,10 @@ body{
 	font-weight: normal;
 	line-height: normal;
 	font-size: 13px;
-	width: auto;
-	height: 16px;
-	left: 486px;
-	top: 530px;
+	width: 198px;
+	height: 31px;
+	left: 61px;
+	top: 408px;
 	color: #AAAAAA;
 	text-align: center;
 }
@@ -354,29 +317,12 @@ body{
 	font-weight: normal;
 	line-height: normal;
 	font-size: 13px;
-	width: auto;
+	width: 93px;
 	height: 31px;
-	left: 634px;
-	top: 572px;
+	left: 114px;
+	top: 489px;
 	color: #AAAAAA;
 	text-align: center;
 }
 
-
-/* links */
-a:link {
-  color: #80C6FA;
-    text-decoration: none; 
 }
-a:hover {
-  text-decoration: underline;  
-}
-a:active {
-  color: #80C6FA; 
-  text-decoration: none; 
-}
-a:visited{
-  color: #80C6FA; 
-  text-decoration: none; 
-}
-
