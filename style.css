@@ -2,7 +2,7 @@ body{
 	background: #FFFFFF
 }
 
-#wrapper{
+.wrapper{
 	margin: 0px auto; 
 	width: 1360px;
 }
