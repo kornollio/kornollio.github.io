@@ -38,6 +38,39 @@ function App() {
 
 function ChatStream({ onOpenProfile }) {
   const script = window.CHAT_SCRIPT;
+  const [topHidden, setTopHidden] = useState(false);
+
+  useEffect(() => {
+    let lastY = window.scrollY || 0;
+    let ticking = false;
+
+    const update = () => {
+      const y = window.scrollY || 0;
+      const delta = y - lastY;
+      // Рядом с верхом всегда показываем
+      if (y < 80) {
+        setTopHidden(false);
+      } else if (delta > 8) {
+        // Скролл вниз — прячем
+        setTopHidden(true);
+      } else if (delta < -8) {
+        // Скролл вверх — показываем
+        setTopHidden(false);
+      }
+      lastY = y;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const renderMsg = (m, idx) => {
     const time = makeTime(idx);
@@ -61,8 +94,10 @@ function ChatStream({ onOpenProfile }) {
 
   return (
     <>
-      <ChatHeader onOpenProfile={onOpenProfile} />
-      <PinnedBar onOpenProfile={onOpenProfile} />
+      <div className={"chat-top" + (topHidden ? " chat-top-hidden" : "")}>
+        <ChatHeader onOpenProfile={onOpenProfile} />
+        <PinnedBar onOpenProfile={onOpenProfile} />
+      </div>
       <div className="stream">
         <div className="stream-inner">
           <DayDivider label="Сегодня" />
