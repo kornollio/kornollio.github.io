@@ -1,3 +1,0 @@
-User-agent: *
-Sitemap: http://privetandrey.ru/sitemap.xml
-Host: privetandrey.ru
