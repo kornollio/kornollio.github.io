@@ -22,9 +22,19 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-html { background: var(--bg-base); }
+/* Градиент на html — по спецификации его фон пропагируется на канву всего
+   viewport, включая safe-area сверху и снизу в iOS 26 Safari. Body — прозрачный,
+   чтобы канва просвечивала везде. */
+html {
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(ellipse at top left, #2D1654 0%, #1A0F2E 55%),
+    linear-gradient(180deg, #1A0F2E 0%, #140A26 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
 body {
-  background: var(--bg-base);
+  background: transparent;
   color: var(--text-primary);
   font-size: 15px;
   line-height: 1.4;
@@ -43,19 +53,15 @@ button { font-family: inherit; }
 }
 
 /* ===== Material-style animated gradient background ===== */
+/* Сам градиент теперь живёт на html (пропагируется на канву всего viewport).
+   Этот слой — только для анимированных блобов и шума поверх градиента. */
 .bg-layer {
   position: fixed;
-  /* Растягиваем в safe-area сверху/снизу, чтобы в iOS 26 Safari фон
-     заходил под status bar и плавающую URL-панель без тёмных полос */
-  top: calc(0px - env(safe-area-inset-top, 0px));
-  left: 0;
-  right: 0;
-  bottom: calc(0px - env(safe-area-inset-bottom, 0px));
+  inset: 0;
   z-index: 0;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at top left, #2D1654 0%, #1A0F2E 55%),
-    linear-gradient(180deg, #1A0F2E 0%, #140A26 100%);
+  pointer-events: none;
+  background: transparent;
 }
 .bg-blob {
   position: absolute;
