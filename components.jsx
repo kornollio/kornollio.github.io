@@ -1,6 +1,20 @@
 // Компоненты для чата в стиле Telegram Dark (фиолетовый ретро).
 const { useState, useEffect, useRef, useMemo, useLayoutEffect } = React;
 
+// Общие данные профиля (для попапа и сценария)
+const PROFILE = {
+  name: "Андрей Осягин",
+  subtitle: "Продуктовый менеджер, Авито Недвижимость",
+  photo: "assets/photo.webp",
+  email: "for@privetandrey.ru",
+  socials: [
+    { name: "Facebook", href: "https://www.facebook.com/osyagin", color: "#3B5998", key: "fb", handle: "@osyagin" },
+    { name: "YouTube", href: "https://www.youtube.com/user/osyagin", color: "#FF0000", key: "yt", handle: "@osyagin" },
+    { name: "Instagram", href: "https://www.instagram.com/andreyosyagin/", color: "#E1306C", key: "ig", handle: "@andreyosyagin" },
+  ],
+};
+window.PROFILE = PROFILE;
+
 // ---------- Avatar ----------
 function Avatar({ src, initial, color, size = 36, online = false }) {
   const bg = color || "#8B7BD8";
@@ -21,132 +35,80 @@ function Avatar({ src, initial, color, size = 36, online = false }) {
   );
 }
 
-// ---------- Chat Header (slim — no action buttons) ----------
-function ChatHeader({ isTyping }) {
+// ---------- Chat Header ----------
+function ChatHeader({ onOpenProfile }) {
   return (
     <header className="chat-header">
-      <Avatar src="assets/photo.webp" size={44} online />
-      <div className="chat-header-info">
-        <div className="chat-header-name">Андрей Осягин</div>
-        <div className={"chat-header-status " + (isTyping ? "typing" : "")}>
-          {isTyping ? "печатает..." : "в сети"}
+      <button
+        className="chat-header-trigger"
+        onClick={onOpenProfile}
+        type="button"
+        aria-label="Открыть профиль"
+      >
+        <Avatar src={PROFILE.photo} size={44} online />
+        <div className="chat-header-info">
+          <div className="chat-header-name">{PROFILE.name}</div>
+          <div className="chat-header-status">в сети</div>
         </div>
-      </div>
+      </button>
     </header>
   );
 }
 
-// ---------- Reaction picker + interactive reactions ----------
-const REACTION_OPTIONS = ["❤️", "🔥", "👍", "😍", "🤩", "😂", "🙌", "🎉"];
-
-function ReactionsRow({ msgId, initial = [] }) {
-  const mineKey = "reactions_mine_" + msgId;
-  const [counts, setCounts] = useState({}); // глобальные счётчики из Firebase: { emoji: number }
-  const [mine, setMine] = useState(() => {
-    try {
-      const raw = localStorage.getItem(mineKey);
-      if (raw) return JSON.parse(raw);
-    } catch (e) {}
-    return {};
-  });
-  const [pickerOpen, setPickerOpen] = useState(false);
-  const [seededRef] = useState(() => ({ done: false }));
-
-  // Сохраняем "свои" реакции
+// ---------- Profile popup ----------
+function ProfilePopup({ open, onClose }) {
   useEffect(() => {
-    try { localStorage.setItem(mineKey, JSON.stringify(mine)); } catch (e) {}
-  }, [mine]);
+    if (!open) return;
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
 
-  // Подписка на Firebase + начальный сид реакций из сценария (один раз на сообщение, глобально)
-  useEffect(() => {
-    if (!window.reactionsAPI) return;
-    const api = window.reactionsAPI;
-    const unsub = api.subscribe(msgId, (raw) => {
-      const decoded = {};
-      Object.entries(raw || {}).forEach(([k, v]) => {
-        decoded[api.decodeEmoji(k)] = v;
-      });
-      setCounts(decoded);
-
-      // Один раз — если в БД пусто и у нас есть начальные реакции из сценария, посеем их
-      if (!seededRef.done && Object.keys(decoded).length === 0 && initial && initial.length) {
-        seededRef.done = true;
-        const seedFlag = "reactions_seeded_" + msgId;
-        if (!localStorage.getItem(seedFlag)) {
-          localStorage.setItem(seedFlag, "1");
-          initial.forEach((e) => api.bump(msgId, e, 1));
-        }
-      } else {
-        seededRef.done = true;
-      }
-    });
-    return () => unsub && unsub();
-  }, [msgId]);
-
-  const toggle = async (emoji) => {
-    const isMine = !!mine[emoji];
-    const delta = isMine ? -1 : 1;
-    setMine((m) => {
-      const n = { ...m };
-      if (isMine) delete n[emoji]; else n[emoji] = 1;
-      return n;
-    });
-    setPickerOpen(false);
-    if (window.reactionsAPI) {
-      try { await window.reactionsAPI.bump(msgId, emoji, delta); }
-      catch (e) { console.warn("reaction bump failed", e); }
-    }
-  };
-
-  // Объединяем: показываем все emoji где count>0, плюс любые mine (на случай оптимистичного клика до ответа БД)
-  const allEmojis = new Set([
-    ...Object.keys(counts).filter((e) => counts[e] > 0),
-    ...Object.keys(mine),
-  ]);
-  const entries = [...allEmojis].map((e) => ({
-    emoji: e,
-    count: counts[e] || 0,
-    mine: !!mine[e],
-  })).filter((x) => x.count > 0);
-
+  if (!open) return null;
   return (
-    <div className="reactions-wrap">
-      <div className="reactions">
-        {entries.map(({ emoji, count, mine: isMine }) => (
-          <button
-            key={emoji}
-            className={"reaction " + (isMine ? "mine" : "")}
-            onClick={() => toggle(emoji)}
-            type="button"
-          >
-            <span className="reaction-emoji">{emoji}</span>
-            <span className="reaction-count">{count}</span>
-          </button>
-        ))}
-        <div className="reaction-add-wrap">
-          <button
-            className="reaction-add"
-            type="button"
-            onClick={() => setPickerOpen((o) => !o)}
-            aria-label="Добавить реакцию"
-          >
-            <svg viewBox="0 0 24 24" width="14" height="14">
-              <path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm-3.5-9.5A1.5 1.5 0 1 1 10 9a1.5 1.5 0 0 1-1.5 1.5zm7 0A1.5 1.5 0 1 1 17 9a1.5 1.5 0 0 1-1.5 1.5zM12 17.5a5.48 5.48 0 0 1-4.9-3h9.8a5.48 5.48 0 0 1-4.9 3z"/>
-            </svg>
-            <span className="plus">+</span>
-          </button>
-          {pickerOpen && (
-            <>
-              <div className="picker-backdrop" onClick={() => setPickerOpen(false)} />
-              <div className="reaction-picker">
-                {REACTION_OPTIONS.map((e) => (
-                  <button key={e} className="picker-option" onClick={() => toggle(e)} type="button">
-                    {e}
-                  </button>
-                ))}
+    <div className="profile-modal" onClick={onClose}>
+      <div className="profile-card" onClick={(e) => e.stopPropagation()}>
+        <button className="profile-close" onClick={onClose} aria-label="Закрыть">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+        <div className="profile-photo-wrap">
+          <img className="profile-photo" src={PROFILE.photo} alt={PROFILE.name} />
+        </div>
+        <div className="profile-name">{PROFILE.name}</div>
+        <div className="profile-sub">{PROFILE.subtitle}</div>
+
+        <div className="profile-section">
+          <div className="profile-section-title">Почта</div>
+          <a className="profile-row" href={"mailto:" + PROFILE.email}>
+            <div className="profile-row-ico mail">
+              <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4l-8 5-8-5V6l8 5 8-5z"/></svg>
+            </div>
+            <div className="profile-row-body">
+              <div className="profile-row-label">Написать письмо</div>
+              <div className="profile-row-value">{PROFILE.email}</div>
+            </div>
+          </a>
+        </div>
+
+        <div className="profile-section">
+          <div className="profile-section-title">Соцсети</div>
+          {PROFILE.socials.map((s) => (
+            <a key={s.key} className="profile-row" href={s.href} target="_blank" rel="noopener">
+              <div className="profile-row-ico" style={{ background: s.color }}>
+                {s.key === "fb" && "f"}
+                {s.key === "yt" && "▶"}
+                {s.key === "ig" && "◉"}
               </div>
-            </>
-          )}
+              <div className="profile-row-body">
+                <div className="profile-row-label">{s.name}</div>
+                <div className="profile-row-value">{s.handle}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div className="profile-disclaimer">
+          <em>Некоторые из перечисленных соцсетей принадлежат компании Meta, признанной экстремистской и запрещённой в РФ.</em>
         </div>
       </div>
     </div>
@@ -154,7 +116,7 @@ function ReactionsRow({ msgId, initial = [] }) {
 }
 
 // ---------- Message wrapper ----------
-function Bubble({ children, msgId, initialReactions, muted, noPadding, className = "" }) {
+function Bubble({ children, muted, noPadding, className = "" }) {
   return (
     <div className="bubble-row">
       <div
@@ -164,9 +126,6 @@ function Bubble({ children, msgId, initialReactions, muted, noPadding, className
       >
         {children}
       </div>
-      {!muted && msgId !== undefined && (
-        <ReactionsRow msgId={msgId} initial={initialReactions || []} />
-      )}
     </div>
   );
 }
@@ -185,9 +144,18 @@ function MessageMeta({ time = "15:42", seen = true }) {
 }
 
 // ---------- Text message ----------
-function TextMessage({ text, muted, time, msgId, initialReactions }) {
+function TextMessage({ text, muted, time }) {
+  if (muted) {
+    return (
+      <Bubble muted>
+        <div className="text-content">
+          <span>{text}</span>
+        </div>
+      </Bubble>
+    );
+  }
   return (
-    <Bubble msgId={msgId} initialReactions={initialReactions} muted={muted}>
+    <Bubble>
       <div className="text-content">
         <span>{text}</span>
         <MessageMeta time={time} />
@@ -197,9 +165,9 @@ function TextMessage({ text, muted, time, msgId, initialReactions }) {
 }
 
 // ---------- Photo message ----------
-function PhotoMessage({ src, caption, time, msgId, initialReactions }) {
+function PhotoMessage({ src, caption, time }) {
   return (
-    <Bubble msgId={msgId} initialReactions={initialReactions} noPadding>
+    <Bubble noPadding>
       <div className="photo-msg">
         <img src={src} alt="" />
         {caption && (
@@ -215,9 +183,9 @@ function PhotoMessage({ src, caption, time, msgId, initialReactions }) {
 }
 
 // ---------- Link preview ----------
-function LinkPreview({ url, site, title, description, color, initial, time, msgId, initialReactions }) {
+function LinkPreview({ url, site, title, description, color, initial, time }) {
   return (
-    <Bubble msgId={msgId} initialReactions={initialReactions}>
+    <Bubble>
       <div className="link-preview">
         <div className="link-accent">
           <div className="link-badge" style={{ background: color }}>{initial}</div>
@@ -238,37 +206,39 @@ function LinkPreview({ url, site, title, description, color, initial, time, msgI
 }
 
 // ---------- Video preview ----------
-function VideoPreview({ src, thumb, title, duration, time, msgId, initialReactions }) {
-  const [playing, setPlaying] = useState(false);
+function VideoPreview({ src, thumb, title, duration, time }) {
+  // Извлекаем ссылку для внешней вкладки из embed-URL
+  const watchUrl = (() => {
+    const m = /embed\/([^?&]+)/.exec(src || "");
+    return m ? "https://www.youtube.com/watch?v=" + m[1] : src;
+  })();
   return (
-    <Bubble msgId={msgId} initialReactions={initialReactions} noPadding>
+    <Bubble noPadding>
       <div className="video-msg">
-        {!playing ? (
-          <div className="video-thumb" onClick={() => setPlaying(true)}>
-            <img src={thumb} alt="" />
-            <button className="play-btn" aria-label="Play">
-              <svg viewBox="0 0 24 24" width="26" height="26"><path fill="#fff" d="M8 5v14l11-7z"/></svg>
-            </button>
-            <span className="video-duration">{duration}</span>
-          </div>
-        ) : (
-          <div className="video-frame">
-            <iframe src={src + "&autoplay=1"} title={title} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
-          </div>
-        )}
-        <div className="video-caption">
+        <a className="video-thumb" href={watchUrl} target="_blank" rel="noopener">
+          <img src={thumb} alt="" />
+          <span className="video-badge">
+            <svg viewBox="0 0 24 24" width="14" height="10"><path fill="#fff" d="M21.6 7.2a2.5 2.5 0 0 0-1.76-1.77C18.27 5 12 5 12 5s-6.27 0-7.84.43A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.76 1.77C5.73 19 12 19 12 19s6.27 0 7.84-.43a2.5 2.5 0 0 0 1.76-1.77A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg>
+            YouTube
+          </span>
+          <button className="play-btn" aria-label="Открыть на YouTube" tabIndex={-1}>
+            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="#fff" d="M8 5v14l11-7z"/></svg>
+          </button>
+          <span className="video-duration">{duration}</span>
+        </a>
+        <a className="video-caption" href={watchUrl} target="_blank" rel="noopener">
           <span>{title}</span>
           <MessageMeta time={time} />
-        </div>
+        </a>
       </div>
     </Bubble>
   );
 }
 
 // ---------- Contact card ----------
-function ContactCard({ label, value, href, time, msgId, initialReactions }) {
+function ContactCard({ label, value, href, time }) {
   return (
-    <Bubble msgId={msgId} initialReactions={initialReactions}>
+    <Bubble>
       <a className="contact-card" href={href}>
         <div className="contact-ico">
           <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4l-8 5-8-5V6l8 5 8-5z"/></svg>
@@ -284,9 +254,9 @@ function ContactCard({ label, value, href, time, msgId, initialReactions }) {
 }
 
 // ---------- Socials row ----------
-function SocialsCard({ items, time, msgId, initialReactions }) {
+function SocialsCard({ items, time }) {
   return (
-    <Bubble msgId={msgId} initialReactions={initialReactions}>
+    <Bubble>
       <div className="socials-card">
         <div className="socials-title">Где меня найти</div>
         <div className="socials-grid">
@@ -310,48 +280,45 @@ function SocialsCard({ items, time, msgId, initialReactions }) {
   );
 }
 
-// ---------- Typing indicator ----------
-function TypingBubble() {
-  return (
-    <div className="bubble-row">
-      <div className="bubble typing-bubble">
-        <div className="dots">
-          <span></span><span></span><span></span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ---------- Day divider ----------
 function DayDivider({ label }) {
   return <div className="day-divider"><span>{label}</span></div>;
 }
 
 // ---------- Pinned message ----------
-function PinnedBar() {
+function PinnedBar({ onOpenProfile }) {
   return (
-    <div className="pinned-bar">
+    <button
+      className="pinned-bar"
+      onClick={onOpenProfile}
+      type="button"
+    >
       <div className="pinned-stripe" />
       <div className="pinned-body">
         <div className="pinned-title">Закреплённое сообщение</div>
         <div className="pinned-text">👀 Если хотите куда-то меня позвать — напишите</div>
       </div>
-    </div>
+    </button>
   );
 }
 
-function Composer() {
-  return null;
-}
-
-function CatFooter() {
-  return null;
+// ---------- Typing loader ----------
+function RetroLoader({ visible }) {
+  return (
+    <div className={"typing-loader " + (visible ? "" : "hidden")}>
+      <div className="typing-loader-bubble">
+        <div className="dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <div className="typing-loader-label">Андрей печатает...</div>
+    </div>
+  );
 }
 
 Object.assign(window, {
   Avatar, ChatHeader, Bubble, MessageMeta,
   TextMessage, PhotoMessage, LinkPreview, VideoPreview,
-  ContactCard, SocialsCard, TypingBubble, DayDivider, PinnedBar, Composer,
-  CatFooter, ReactionsRow,
+  ContactCard, SocialsCard, DayDivider, PinnedBar,
+  ProfilePopup, RetroLoader,
 });
